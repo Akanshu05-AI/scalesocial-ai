@@ -1,0 +1,35 @@
+# Pinned to exact versions that have been installed + verified against this
+# codebase (app import, full route registration, TestClient requests all
+# checked). Previously used open-ended >= constraints, which silently pulled
+# fastapi 0.139.2 on a fresh install when this was last audited -- pin to
+# avoid an unpinned install picking up a future breaking change unnoticed.
+fastapi==0.139.2
+uvicorn==0.51.0
+pydantic==2.13.4
+pydantic-settings==2.14.2
+supabase==2.31.0
+redis==8.0.1
+pyjwt==2.13.0
+cryptography==49.0.0
+pytest<9.1.1
+pytest-asyncio==0.24.0
+httpx==0.28.1
+email-validator==2.3.0
+python-dotenv==1.0.1
+celery==5.6.3
+google-genai==2.12.1
+
+# Required at runtime by the Twitter media upload endpoint (Form/File
+# uploads) -- was missing before; app crashes on startup without it.
+python-multipart==0.0.32
+
+# --- New additions: migration tooling (flagged per rules.md #8 rather than
+# added silently) ---
+# alembic.ini existed but was empty/unwired; DATABASE_URL was defined but
+# unused. These two packages are the minimum needed to make Alembic actually
+# runnable. Migrations are written as raw SQL (op.execute(...)), NOT
+# SQLAlchemy ORM models -- the Supabase REST client remains the only query
+# path the app itself uses, per rules.md's "avoid a second ORM/source of
+# truth" guidance. Alembic here is purely a schema-versioning tool.
+alembic==1.16.1
+psycopg2-binary==2.9.10

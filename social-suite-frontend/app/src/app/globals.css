@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-paper text-ink antialiased;
+  }
+  ::selection {
+    @apply bg-signal-light text-signal-dark;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-signal ring-offset-2 ring-offset-paper;
+  }
+}
+
+@layer components {
+  /* Signature element: a 3px "on-air" rail used on cards/list items to
+     encode platform or status at a glance — a nod to broadcast signal
+     strength rather than a decorative accent. */
+  .signal-rail {
+    @apply relative pl-4;
+  }
+  .signal-rail::before {
+    content: "";
+    @apply absolute left-0 top-1 bottom-1 w-[3px] rounded-full;
+    background: currentColor;
+  }
+}

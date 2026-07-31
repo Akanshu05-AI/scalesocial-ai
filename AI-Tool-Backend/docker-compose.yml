@@ -1,0 +1,36 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app/app
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    restart: always
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python -m celery -A app.core.celery.celery_app worker --loglevel=info
+    volumes:
+      - ./app:/app/app
+    environment:
+      # Directs Python to search the root level local compilation path for dependencies
+      - PYTHONPATH=/root/.local/lib/python3.11/site-packages
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: always
