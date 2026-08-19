@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { makeQueryClient } from "@/lib/query-client";
 import { ToastProvider } from "@/components/ui/toast";
 import { AuthListener } from "@/features/auth/components/AuthListener";
+import { ThemeListener } from "@/providers/ThemeProvider";
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   // useState (not module scope) so each request/session gets its own client
@@ -15,6 +16,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ToastProvider>
+        <ThemeListener />
         <AuthListener />
         {children}
       </ToastProvider>

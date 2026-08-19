@@ -36,6 +36,8 @@ from app.services.twitter_media_service import TwitterMediaService
 from app.services.twitter_schedule_service import TwitterScheduleService
 from app.services.twitter_thread_service import TwitterThreadService
 
+from app.api.deps import get_current_user_id
+
 logger = logging.getLogger("platform.twitter.router")
 
 router = APIRouter(prefix="/twitter", tags=["Twitter Platform"])
@@ -72,10 +74,11 @@ def get_thread_service() -> TwitterThreadService:
 
 @router.get("/login", response_model=TwitterLoginResponse)
 async def twitter_login(
-    oauth_service: Annotated[TwitterOAuthService, Depends(get_oauth_service)]
+    oauth_service: Annotated[TwitterOAuthService, Depends(get_oauth_service)],
+    user_id: str = Depends(get_current_user_id)
 ):
     """Generates the secure redirect token challenge parameters via the OAuth service layer."""
-    authorize_url = await oauth_service.build_authorize_url(user_id="mock_user_123")
+    authorize_url = await oauth_service.build_authorize_url(user_id=user_id)
     return TwitterLoginResponse(authorize_url=authorize_url)
 
 
@@ -93,7 +96,6 @@ async def twitter_callback(
             status_code=400,
         )
     
-    # Executes the direct codebase exchange layout from your TwitterOAuthService file
     account_profile = await oauth_service.handle_callback(
         code=query_params.code, 
         state=query_params.state
@@ -105,19 +107,21 @@ async def twitter_callback(
 
 @router.get("/accounts", response_model=TwitterAccountListResponse)
 async def list_connected_accounts(
-    service: Annotated[TwitterAccountService, Depends(get_account_service)]
+    service: Annotated[TwitterAccountService, Depends(get_account_service)],
+    user_id: str = Depends(get_current_user_id)
 ):
     """Retrieves all registered active or token-expired social graph profiles for the session user."""
-    return await service.list_accounts(user_id="mock_user_123")
+    return await service.list_accounts(user_id=user_id)
 
 
 @router.delete("/accounts/{account_id}", response_model=TwitterAccountDisconnectResponse)
 async def disconnect_account(
     account_id: str,
-    service: Annotated[TwitterAccountService, Depends(get_account_service)]
+    service: Annotated[TwitterAccountService, Depends(get_account_service)],
+    user_id: str = Depends(get_current_user_id)
 ):
     """Soft-disconnects credential ties securely while preserving metrics log isolation rules."""
-    return await service.disconnect_account(account_id=account_id, user_id="mock_user_123")
+    return await service.disconnect_account(account_id=account_id, user_id=user_id)
 
 
 # --- CONTENT UPLOADS & PUBLISHING SYSTEM ---
@@ -137,7 +141,8 @@ async def upload_platform_media(
 @router.post("/post", response_model=TweetResponse, status_code=status.HTTP_201_CREATED)
 async def create_single_post(
     request: TweetCreateRequest,
-    service: Annotated[TwitterThreadService, Depends(get_thread_service)]
+    service: Annotated[TwitterThreadService, Depends(get_thread_service)],
+    user_id: str = Depends(get_current_user_id)
 ):
     """Dispatches standalone short text variants containing pre-validated operational media lists."""
     from app.schemas.twitter_post_schema import ThreadCreateRequest, ThreadTweetItem
@@ -148,7 +153,7 @@ async def create_single_post(
     )
     
     result = await service.post_thread(
-        user_id="mock_user_123", request=thread_req, username="scalesocial_ai"
+        user_id=user_id, request=thread_req, username="scalesocial_ai"
     )
     
     first_item = result.items[0]
@@ -163,21 +168,23 @@ async def create_single_post(
 @router.post("/post/thread", response_model=ThreadResponse, status_code=status.HTTP_201_CREATED)
 async def create_thread_post(
     request: ThreadCreateRequest,
-    service: Annotated[TwitterThreadService, Depends(get_thread_service)]
+    service: Annotated[TwitterThreadService, Depends(get_thread_service)],
+    user_id: str = Depends(get_current_user_id)
 ):
     """Executes atomic sequential posting routines with transaction rollback fallbacks."""
     return await service.post_thread(
-        user_id="mock_user_123", request=request, username="scalesocial_ai"
+        user_id=user_id, request=request, username="scalesocial_ai"
     )
 
 
 @router.post("/post/schedule", response_model=ScheduledPostResponse, status_code=status.HTTP_201_CREATED)
 async def create_scheduled_post(
     request: ScheduledPostCreateRequest,
-    service: Annotated[TwitterScheduleService, Depends(get_schedule_service)]
+    service: Annotated[TwitterScheduleService, Depends(get_schedule_service)],
+    user_id: str = Depends(get_current_user_id)
 ):
     """Registers timeline structures inside persistent queues for future automated emission loops."""
-    return await service.create_scheduled_post(user_id="mock_user_123", request=request)
+    return await service.create_scheduled_post(user_id=user_id, request=request)
 
 
 # --- TELEMETRY & ENGAGEMENT METRICS ---
@@ -194,7 +201,8 @@ async def get_tweet_analytics(
 @router.get("/analytics/thread/{post_id}", response_model=ThreadAnalyticsResponse)
 async def get_thread_analytics(
     post_id: str,
-    service: Annotated[TwitterAnalyticsService, Depends(get_analytics_service)]
+    service: Annotated[TwitterAnalyticsService, Depends(get_analytics_service)],
+    user_id: str = Depends(get_current_user_id)
 ):
     """Assembles metrics matrices recursively across structural conversational replies."""
-    return await service.get_thread_analytics(post_id=post_id, user_id="mock_user_123")
+    return await service.get_thread_analytics(post_id=post_id, user_id=user_id)

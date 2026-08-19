@@ -10,7 +10,10 @@
 
 @layer base {
   body {
-    @apply bg-paper text-ink antialiased;
+    @apply bg-paper text-ink antialiased transition-colors duration-200;
+  }
+  .dark body {
+    @apply bg-[#0d1117] text-[#f0f6fc];
   }
   ::selection {
     @apply bg-signal-light text-signal-dark;
@@ -20,10 +23,47 @@
   }
 }
 
+/* Custom dark mode utility overrides */
+.dark .bg-white {
+  background-color: #161b22 !important;
+}
+.dark .bg-paper {
+  background-color: #0d1117 !important;
+}
+.dark .border-border {
+  border-color: #30363d !important;
+}
+.dark .text-ink {
+  color: #f0f6fc !important;
+}
+.dark .text-slate {
+  color: #8b949e !important;
+}
+.dark .shadow-card {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+  color: #f0f6fc !important;
+  background-color: #161b22 !important;
+  border-color: #30363d !important;
+  color-scheme: dark !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #8b949e !important;
+}
+
+.dark .bg-amber-light {
+  background-color: rgba(120, 53, 15, 0.3) !important;
+  border-color: rgba(245, 158, 11, 0.4) !important;
+  color: #fef3c7 !important;
+}
+
 @layer components {
-  /* Signature element: a 3px "on-air" rail used on cards/list items to
-     encode platform or status at a glance — a nod to broadcast signal
-     strength rather than a decorative accent. */
   .signal-rail {
     @apply relative pl-4;
   }

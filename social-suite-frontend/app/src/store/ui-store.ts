@@ -1,11 +1,13 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+export type ThemeMode = "light" | "dark" | "system";
+
 interface UiState {
   sidebarCollapsed: boolean;
   toggleSidebar: () => void;
-  theme: "light" | "dark";
-  setTheme: (theme: "light" | "dark") => void;
+  theme: ThemeMode;
+  setTheme: (theme: ThemeMode) => void;
 }
 
 export const useUiStore = create<UiState>()(
@@ -13,9 +15,9 @@ export const useUiStore = create<UiState>()(
     (set) => ({
       sidebarCollapsed: false,
       toggleSidebar: () => set((s) => ({ sidebarCollapsed: !s.sidebarCollapsed })),
-      theme: "light",
+      theme: "system",
       setTheme: (theme) => set({ theme }),
     }),
-    { name: "ui-preferences" } // localStorage — fine to persist across sessions
+    { name: "ui-preferences" }
   )
 );

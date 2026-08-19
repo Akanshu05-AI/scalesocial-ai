@@ -38,7 +38,7 @@ export function AuthListener() {
       if (session) {
         setSession(extractProfile(session.user));
         document.cookie = "logged_in=true; path=/; max-age=86400";
-      } else {
+      } else if (useAuthStore.getState().supabaseUserId !== "00000000-0000-0000-0000-000000000000") {
         clearSession();
         document.cookie = "logged_in=; path=/; max-age=0";
       }

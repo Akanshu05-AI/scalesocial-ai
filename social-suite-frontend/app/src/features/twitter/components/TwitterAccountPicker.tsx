@@ -64,10 +64,10 @@ export function TwitterAccountPicker({
           type="button"
           onClick={() => onSelect(acc.id)}
           className={cn(
-            "rounded-full border px-3 py-1 text-xs font-medium",
+            "rounded-full border px-3 py-1 text-xs font-semibold transition-colors",
             selected === acc.id
-              ? "border-signal bg-signal-light text-signal-dark"
-              : "border-border text-slate hover:bg-ink/5"
+              ? "border-sky-500 bg-sky-500/10 text-sky-600 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-400"
+              : "border-border text-slate dark:text-slate-300 hover:bg-ink/5 dark:hover:bg-white/10"
           )}
         >
           @{acc.username}

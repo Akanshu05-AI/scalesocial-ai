@@ -1,3 +1,5 @@
+"use client";
+
 import { PageHeader } from "@/components/PageHeader";
 import { AiGeneratorForm } from "@/features/ai-writer/components/AiGeneratorForm";
 

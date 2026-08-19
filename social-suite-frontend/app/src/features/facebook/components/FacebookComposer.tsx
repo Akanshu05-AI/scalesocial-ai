@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Textarea } from "@/components/ui/input";
+import { Textarea, Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { useFacebookSession } from "../hooks/useFacebookSession";
@@ -54,8 +54,8 @@ export function FacebookComposer() {
           <label className="mb-1 block text-xs font-medium text-slate">
             Or paste a token directly (dev/testing)
           </label>
-          <input
-            className="h-9 w-full rounded-card border border-border px-3 text-xs"
+          <Input
+            className="h-9 text-xs"
             placeholder="Page or user access token"
             onBlur={(e) => e.target.value && setAccessToken(e.target.value)}
           />

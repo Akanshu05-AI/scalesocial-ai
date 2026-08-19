@@ -8,7 +8,7 @@ interface ToastMessage {
   id: string;
   title: string;
   description?: string;
-  variant?: "default" | "success" | "error";
+  variant?: "default" | "success" | "error" | "info";
 }
 
 interface ToastContextValue {
@@ -42,9 +42,10 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               if (!open) setMessages((prev) => prev.filter((x) => x.id !== m.id));
             }}
             className={cn(
-              "rounded-card border border-border bg-white p-4 shadow-card",
-              m.variant === "success" && "border-signal",
-              m.variant === "error" && "border-rose"
+              "rounded-card border border-border bg-white dark:bg-[#161b22] p-4 shadow-card",
+              m.variant === "success" && "border-emerald-500",
+              m.variant === "error" && "border-rose",
+              m.variant === "info" && "border-sky-500"
             )}
           >
             <ToastPrimitive.Title className="text-sm font-medium">{m.title}</ToastPrimitive.Title>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Plus, X } from "lucide-react";
-import { Textarea } from "@/components/ui/input";
+import { Textarea, Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { TwitterAccountPicker } from "./TwitterAccountPicker";
@@ -96,9 +96,13 @@ export function TwitterComposer() {
       </div>
 
       <Tabs value={mode} onValueChange={(v) => setMode(v as "tweet" | "thread")}>
-        <TabsList>
-          <TabsTrigger value="tweet">Single tweet</TabsTrigger>
-          <TabsTrigger value="thread">Thread</TabsTrigger>
+        <TabsList className="bg-paper/80 p-1 dark:bg-white/10">
+          <TabsTrigger value="tweet" className="text-slate dark:text-slate-300 data-[state=active]:bg-white data-[state=active]:text-ink dark:data-[state=active]:bg-white/20 dark:data-[state=active]:text-white font-medium">
+            Single tweet
+          </TabsTrigger>
+          <TabsTrigger value="thread" className="text-slate dark:text-slate-300 data-[state=active]:bg-white data-[state=active]:text-ink dark:data-[state=active]:bg-white/20 dark:data-[state=active]:text-white font-medium">
+            Thread
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="tweet" className="mt-4 space-y-2">
@@ -139,11 +143,11 @@ export function TwitterComposer() {
 
       <div>
         <label className="mb-1 block text-sm font-medium text-ink">Schedule for (optional)</label>
-        <input
+        <Input
           type="datetime-local"
           value={scheduledAt}
           onChange={(e) => setScheduledAt(e.target.value)}
-          className="h-10 rounded-card border border-border px-3 text-sm"
+          className="h-10 w-full sm:w-72"
         />
       </div>
 

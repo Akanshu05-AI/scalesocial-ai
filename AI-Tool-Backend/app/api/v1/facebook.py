@@ -3,6 +3,9 @@ from fastapi import APIRouter, Query, status
 from app.services.facebook import FacebookService
 from app.models.facebook_models import FacebookPostRequest, FacebookReplyRequest
 
+from fastapi.responses import RedirectResponse
+from app.core.config import settings
+
 router = APIRouter()
 facebook = FacebookService()
 
@@ -15,8 +18,12 @@ def facebook_login():
 
 
 @router.get("/callback", status_code=status.HTTP_200_OK)
-def callback(code: str):
-    return facebook.exchange_code_for_token(code)
+def callback(code: str, redirect: bool = Query(default=False)):
+    token_data = facebook.exchange_code_for_token(code)
+    if redirect:
+        access_token = token_data.get("access_token", "")
+        return RedirectResponse(url=f"{settings.FRONTEND_URL}/settings/connections?connected=facebook&token={access_token}")
+    return token_data
 
 
 @router.get("/pages", status_code=status.HTTP_200_OK)

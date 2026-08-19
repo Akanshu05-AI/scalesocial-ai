@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from app.services.twitter_oauth_service import TwitterOAuthService
 
 # Instantiates standard bearer scheme utility tracking authorization headers
-security_scheme = HTTPBearer()
+security_scheme = HTTPBearer(auto_error=False)
 
 def get_supabase_client() -> Client:
     """
@@ -33,6 +33,12 @@ def get_current_user(credential: HTTPAuthorizationCredentials = Depends(security
     """
     Frontline authentication gate extracting and decoding session JWT parameters.
     """
+    if not credential:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
     return verify_supabase_jwt(credential.credentials)
 
 def get_current_user_id(current_user: JWTUserPayload = Depends(get_current_user)) -> str:

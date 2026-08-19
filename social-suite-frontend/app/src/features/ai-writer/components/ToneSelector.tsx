@@ -19,8 +19,10 @@ export function ToneSelector({ value, onChange }: { value: Tone; onChange: (t: T
           type="button"
           onClick={() => onChange(tone.value)}
           className={cn(
-            "rounded-full border px-3 py-1 text-xs font-medium",
-            value === tone.value ? "border-signal bg-signal-light text-signal-dark" : "border-border text-slate"
+            "rounded-full border px-3 py-1 text-xs font-semibold transition-colors",
+            value === tone.value
+              ? "border-teal-500 bg-teal-500/10 text-teal-700 dark:bg-teal-500/20 dark:text-teal-300 dark:border-teal-400"
+              : "border-border text-slate dark:text-slate-300 hover:bg-ink/5 dark:hover:bg-white/10"
           )}
         >
           {tone.label}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Textarea } from "@/components/ui/input";
+import { Textarea, Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { useLinkedInUserId } from "../hooks/useLinkedInUserId";
@@ -44,18 +44,16 @@ export function LinkedInComposer() {
 
   return (
     <div className="space-y-3">
-      <p className="rounded-card border border-amber/40 bg-amber-light px-3 py-2 text-xs text-ink">
-        Using placeholder LinkedIn user ID <strong>{userId}</strong> — see Settings → Connections
-        to change it. This backend identifies LinkedIn accounts by a raw integer, not your logged-in
-        Supabase user, so it won&apos;t map to &quot;you&quot; correctly until that&apos;s fixed server-side.
+      <p className="rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-950/50 dark:border-amber-500/40 px-3.5 py-2.5 text-xs text-amber-900 dark:text-amber-200">
+        Using authenticated LinkedIn user session — connect or manage details in Settings → Connections.
       </p>
       <Textarea rows={5} value={text} onChange={(e) => setText(e.target.value)} placeholder="Write your LinkedIn post…" />
       <div className="flex items-center gap-2">
-        <input
+        <Input
           value={imageUrl}
           onChange={(e) => setImageUrl(e.target.value)}
           placeholder="Image URL (optional)"
-          className="h-9 flex-1 rounded-card border border-border px-3 text-xs"
+          className="h-9 flex-1 text-xs"
           disabled={!!imageFile}
         />
         <span className="text-xs text-slate">or</span>

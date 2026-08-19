@@ -22,7 +22,9 @@ class UpstashRateLimitMiddleware(BaseHTTPMiddleware):
         # Create a persistent async connection pool from the environment configurations
         self.redis_pool = aioredis.ConnectionPool.from_url(
             settings.UPSTASH_REDIS_URL, 
-            decode_responses=True
+            decode_responses=True,
+            socket_timeout=0.2,
+            socket_connect_timeout=0.2
         )
 
     async def dispatch(self, request: Request, call_next) -> Response:

@@ -37,10 +37,9 @@ export function InstagramComposer() {
 
   return (
     <div className="space-y-3">
-      <p className="rounded-card border border-amber/40 bg-amber-light px-3 py-2 text-xs text-ink">
+      <p className="rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-950/50 dark:border-amber-500/40 px-3.5 py-2.5 text-xs text-amber-900 dark:text-amber-200">
         Instagram&apos;s Graph API needs a public HTTPS URL for media — it fetches the image/video
-        itself server-side. There&apos;s no file-upload endpoint here like Twitter&apos;s, so host
-        your media somewhere first and paste the URL.
+        itself server-side. Host your media on a public HTTPS URL and paste it below.
       </p>
       <Input value={igUserId} onChange={(e) => setIgUserId(e.target.value)} placeholder="Instagram Business Account ID" />
       <Input value={mediaUrl} onChange={(e) => setMediaUrl(e.target.value)} placeholder="Public media URL (https://...)" />
