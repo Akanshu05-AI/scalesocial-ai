@@ -1,5 +1,9 @@
 # ScaleSocial AI — Enterprise Multi-Channel Social Management Suite
 
+[![Live Web App](https://img.shields.io/badge/Live%20Demo-scalesocial--ai.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://scalesocial-ai.vercel.app/ai/writer)
+[![Backend API](https://img.shields.io/badge/Render-API%20Online-46E3B7?style=for-the-badge&logo=render&logoColor=black)](https://scalesocial-ai.onrender.com)
+[![Swagger Docs](https://img.shields.io/badge/Swagger-Interactive%20Docs-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)](https://scalesocial-ai.onrender.com/docs)
+
 [![Next.js](https://img.shields.io/badge/Next.js-15.5.21-black?logo=nextdotjs)](https://nextjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?logo=fastapi)](https://fastapi.tiangolo.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?logo=typescript)](https://www.typescriptlang.org/)
@@ -11,6 +15,20 @@
 [![Tests](https://img.shields.io/badge/Tests-10%20Passed-brightgreen)](https://github.com/)
 
 **ScaleSocial AI** is a production-ready, enterprise-grade social media management suite designed to automate multi-channel content publishing, AI generation, and engagement analytics across **Twitter / X**, **LinkedIn**, **Facebook**, and **Instagram**.
+
+---
+
+## 🌐 Live Production Deployment
+
+| Service | Provider | Status | URL |
+| :--- | :--- | :--- | :--- |
+| **Frontend Web App** | Vercel | 🟢 Live | [https://scalesocial-ai.vercel.app](https://scalesocial-ai.vercel.app) |
+| **AI Writer Tool** | Vercel | 🟢 Live | [https://scalesocial-ai.vercel.app/ai/writer](https://scalesocial-ai.vercel.app/ai/writer) |
+| **Backend REST API** | Render | 🟢 Online | [https://scalesocial-ai.onrender.com](https://scalesocial-ai.onrender.com) |
+| **Interactive API Docs** | Render | 🟢 Swagger UI | [https://scalesocial-ai.onrender.com/docs](https://scalesocial-ai.onrender.com/docs) |
+| **System Health Check** | Render | 🟢 200 OK | [https://scalesocial-ai.onrender.com/health](https://scalesocial-ai.onrender.com/health) |
+
+> 💡 **Quick Demo Access**: You can test the platform immediately without creating an account! Visit the [Login Page](https://scalesocial-ai.vercel.app/login) and click **"⚡ Continue as Demo User (Bypass Sign-In)"** or jump directly into the [AI Writer Suite](https://scalesocial-ai.vercel.app/ai/writer).
 
 ---
 
@@ -170,12 +188,40 @@ npx tsc --noEmit
 
 ---
 
+## 🚀 Production Deployment Stack
+
+### Frontend: Vercel ([scalesocial-ai.vercel.app](https://scalesocial-ai.vercel.app))
+- Framework: Next.js 15 App Router
+- Root Directory: `social-suite-frontend/app`
+- Build Command: `next build`
+- Environment Variables Configured:
+  - `NEXT_PUBLIC_API_URL`: `https://scalesocial-ai.onrender.com/api/v1`
+  - `NEXT_PUBLIC_WS_URL`: `wss://scalesocial-ai.onrender.com/ws`
+  - `NEXT_PUBLIC_SUPABASE_URL`: Supabase project URL
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabase anon public key
+
+### Backend: Render ([scalesocial-ai.onrender.com](https://scalesocial-ai.onrender.com))
+- Runtime: Docker container (`AI-Tool-Backend/Dockerfile`)
+- Dynamic port binding (`$PORT`) via Uvicorn
+- Blueprint: Infrastructure configured via [`render.yaml`](file:///c:/Desktop/Projects/scalesocial-ai/render.yaml)
+- Key Endpoints:
+  - Base URL & Status: `GET https://scalesocial-ai.onrender.com/`
+  - Swagger Documentation: `GET https://scalesocial-ai.onrender.com/docs`
+  - Health Probe: `GET https://scalesocial-ai.onrender.com/health`
+  - API v1 Router: `https://scalesocial-ai.onrender.com/api/v1`
+
+---
+
 ## ⚡ Continuous Demo Mode
 
-Forget your email/password? Click the **⚡ Continue as Demo User (Bypass Sign-In)** button on the login screen (`http://localhost:3000/login`) to launch directly into the dashboard with pre-loaded demo metrics and channels.
+Want to explore without configuring credentials?
+1. Open the live deployment: **[https://scalesocial-ai.vercel.app/login](https://scalesocial-ai.vercel.app/login)**
+2. Click the **⚡ Continue as Demo User (Bypass Sign-In)** button.
+3. You will immediately access the full enterprise dashboard, unified batch composer, and the **[Gemini AI Writer Suite](https://scalesocial-ai.vercel.app/ai/writer)**.
 
 ---
 
 ## 📄 License & Attribution
 
 Designed & Engineered for **ScaleSocial AI Enterprise**. All rights reserved.
+
