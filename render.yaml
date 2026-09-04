@@ -1,0 +1,68 @@
+services:
+  # ---------------------------------------------------------------------------
+  # ScaleSocial FastAPI Backend Web Service
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: scalesocial-backend
+    runtime: python
+    rootDir: AI-Tool-Backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: PROJECT_NAME
+        value: ScaleSocial Engine
+      - key: API_V1_STR
+        value: /api/v1
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: UPSTASH_REDIS_URL
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: FRONTEND_URL
+        sync: false
+      - key: GRAPH_API_VERSION
+        value: v25.0
+      - key: FACEBOOK_APP_ID
+        sync: false
+      - key: FACEBOOK_APP_SECRET
+        sync: false
+      - key: TWITTER_CLIENT_ID
+        sync: false
+      - key: TWITTER_CLIENT_SECRET
+        sync: false
+      - key: LINKEDIN_CLIENT_ID
+        sync: false
+      - key: LINKEDIN_CLIENT_SECRET
+        sync: false
+
+  # ---------------------------------------------------------------------------
+  # (Optional) Celery Background Worker Service
+  # Note: Background workers on Render require a Starter plan ($7/mo).
+  # Uncomment below if you want Celery scheduled tasks running as a dedicated worker.
+  # ---------------------------------------------------------------------------
+  # - type: worker
+  #   name: scalesocial-celery-worker
+  #   runtime: python
+  #   rootDir: AI-Tool-Backend
+  #   buildCommand: pip install -r requirements.txt
+  #   startCommand: celery -A app.core.celery.celery_app worker --loglevel=info
+  #   envVars:
+  #     - fromService:
+  #         type: web
+  #         name: scalesocial-backend
+  #         envVarKey: UPSTASH_REDIS_URL
