@@ -145,6 +145,17 @@ def create_application() -> FastAPI:
     # CORE SYSTEM ROUTING MATRIX
     # -------------------------------------------------------------------------
     
+    @application.get("/", tags=["System Root"], status_code=status.HTTP_200_OK)
+    async def root():
+        return {
+            "name": settings.PROJECT_NAME,
+            "status": "online",
+            "environment": settings.ENVIRONMENT,
+            "docs": "/docs",
+            "health": "/health",
+            "api": f"{settings.API_V1_STR}",
+        }
+
     @application.get("/health", tags=["System Architecture Health Check"], status_code=status.HTTP_200_OK)
     async def health_check():
         return {

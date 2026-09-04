@@ -32,8 +32,8 @@ class UpstashRateLimitMiddleware(BaseHTTPMiddleware):
         Intercepts incoming traffic to enforce algorithmic token bucket restrictions.
         Tracks unique client footprints across isolated sliding windows.
         """
-        # Short-circuit early: Pass automated heartbeat/health checks without tracking
-        if request.url.path == "/health":
+        # Short-circuit early: Pass automated heartbeat/health checks and root status without tracking
+        if request.url.path in ("/health", "/"):
             return await call_next(request)
 
         # Build a distinct cache footprint based on the client IP address
@@ -78,8 +78,8 @@ class UpstashRateLimitMiddleware(BaseHTTPMiddleware):
                 )
 
         except Exception as exc:
-            # Defensive Fail-open principle: If local or external Redis drops, log the critical event
-            # but allow business logic flow to continue without dropping active customer traffic.
-            logger.critical(f"Unhandled architectural panic: {str(exc)}", exc_info=True)
+            # Defensive Fail-open principle: If external Redis drops or is unconfigured,
+            # allow business logic flow to continue without dropping customer traffic.
+            logger.warning(f"Rate limiter fail-open: Redis connection error ({str(exc)}). Continuing request.")
 
         return await call_next(request)
