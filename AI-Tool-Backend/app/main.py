@@ -34,13 +34,15 @@ def create_application() -> FastAPI:
     # -------------------------------------------------------------------------
     origins = [
         "http://localhost:3000",  # Next.js Frontend Development Target
+        settings.FRONTEND_URL,
     ]
-    if settings.ENVIRONMENT != "development":
-        origins = [settings.SUPABASE_URL]  
+    if settings.SUPABASE_URL and settings.SUPABASE_URL not in origins:
+        origins.append(settings.SUPABASE_URL)
 
     application.add_middleware(
         CORSMiddleware,
         allow_origins=origins,
+        allow_origin_regex=r"https://.*\.vercel\.app",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
